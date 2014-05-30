@@ -3,7 +3,12 @@
 data <- read.table("YearPredictionMSD.txt", sep=",")
 dim(data)
 unique(data[,1])  # Looking at the years we have
-table(data[,1])   # Table of our years...small numbers before 1990's
+table(data[,1])  # Table of our years...small numbers before 1990's
+
+#plotting years
+years<-table(data[,1])
+plot(1924:2010,years[2:88],type="l",main="Number of songs per year in data set",ylab="Numer of songs")
+
 
 # Splitting the training set and the test set
 X.train <- as.matrix(data[1:463715,2:91])
@@ -44,3 +49,5 @@ Res.test <- Y.test-Preds.test
 write.csv(Res.test, "Residuals_test.csv")
 plot(Y.test, Res.test, pch=16)
 # Not doing to well...but it is probably coming from the small amount of data before 1990's
+
+
