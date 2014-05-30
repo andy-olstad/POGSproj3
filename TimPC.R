@@ -6,7 +6,7 @@ unique(data[,1])  # Looking at the years we have
 table(data[,1])   # Table of our years...small numbers before 1990's
 
 # Splitting the training set and the test set
-X.train <- as.matrix(data[1:463715,2:40])
+X.train <- as.matrix(data[1:463715,2:91])
 X.test <- as.matrix(data[463716:515345, 2:91])
 Y.train <- as.vector(data[1:463715, 1])
 Y.test <- as.vector(data[463716:515345, 1])
