@@ -5,10 +5,19 @@ dim(data)
 unique(data[,1])  # Looking at the years we have
 table(data[,1])  # Table of our years...small numbers before 1990's
 
-#plotting years
-years<-table(data[,1])
-plot(1924:2010,years[2:88],type="l",main="Number of songs per year in data set",ylab="Numer of songs")
-
+#SG: plotting years
+library(ggplot2)
+require(scales)
+year_data <- read.table("YearDistributions.tab", header = F)
+year_dist <- ggplot() + 
+  layer(data = year_data,
+        geom = "line",
+        mapping = aes(x = V2, y = V1)) +
+  labs(x = "Year", y = "Number of songs") +
+  scale_x_continuous(breaks=pretty_breaks(n=10)) +
+  theme_bw(18)
+year_dist
+ggsave("year_dist.pdf")
 
 # Splitting the training set and the test set
 X.train <- as.matrix(data[1:463715,2:91])
@@ -48,6 +57,30 @@ Res.test <- Y.test-Preds.test
 
 write.csv(Res.test, "Residuals_test.csv")
 plot(Y.test, Res.test, pch=16)
-# Not doing to well...but it is probably coming from the small amount of data before 1990's
+# Not doing too well...but it is probably coming from the small amount of data before 1990's
 
+# SG: plot predictions
+library(dplyr)
+pred_df <- as.data.frame(Preds.test)
+predictions <- mutate(pred_df, year = round(V1)) 
 
+predict_plot <- ggplot() + 
+  geom_histogram(aes(x = predictions$year), binwidth = 2) +
+  labs(x = "Year", y = "Number of songs") +
+  scale_x_continuous(breaks=pretty_breaks(n=10), limits = c(1920, 2015)) +
+ # xlim(c(1920,2015)) +
+  theme_bw(18)
+predict_plot
+ggsave("predict_plot.pdf")
+
+# SG: plot residuals
+plot_resids <- ggplot() + 
+  geom_point(aes(x = Y.test, y = Res.test)) +
+  geom_hline(yintercept = 0, color = "red") +
+  geom_hline(yintercept = c(-10,10)) +
+  labs(x = "Year", y = "Prediction residual") +
+  scale_x_continuous(breaks=pretty_breaks(n=10)) +   
+  scale_y_continuous(breaks=pretty_breaks(n=10)) +
+  theme_bw(18)
+plot_resids
+ggsave("plot_resids.pdf")
