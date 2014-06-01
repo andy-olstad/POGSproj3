@@ -103,3 +103,73 @@ plot_resids <- ggplot() +
   theme_bw(18)
 plot_resids
 ggsave("plot_resids.pdf")
+
+##########double-checking by ignoring PCA for a moment
+Response<-Y.train
+Predictors<-X.train[,1:12]
+model<-lm(Response~Predictors)
+summary(model)
+
+plot(model$fit,model$res)
+plot(jitter(model$fit),jitter(model$res),pch=".")
+plot(jitter(model$fit+model$res),jitter(model$fit),pch=".",ylab="Predicted Year",xlab="Year")
+legend("bottomright",legend="R squared is 0.15")
+title("Predicton using presumed 12 means")
+
+bigmodel<-lm(Response~X.train)
+plot(jitter(bigmodel$fit-model$res),jitter(bigmodel$fit),pch=".",ylab="Predicted Year",xlab="Year")
+legend("bottomright",legend="R squared is 0.24")
+title("Predicton using all 90 data columns")
+
+#plotting years
+years<-table(data[,1])
+plot(1924:2010,years[2:88],type="l",main="Number of songs per year in data set",ylab="Numer of songs")
+
+plot(jitter(data[,1]),jitter(data[,2]),pch=".",xlab="Year")
+plot(jitter(data[,1]),jitter(data[,3]),pch=".",xlab="Year")
+plot(jitter(data[,1]),jitter(data[,4]),pch=".",xlab="Year")
+plot(jitter(data[,1]),jitter(data[,5]),pch=".",xlab="Year")
+plot(jitter(data[,1]),jitter(data[,6]),pch=".",xlab="Year")
+plot(jitter(data[,1]),jitter(data[,7]),pch=".",xlab="Year")
+par(mfrow=c(4,4))
+plot(jitter(data[,1]),jitter(data[,8]),pch=".",xlab="Year")
+plot(jitter(data[,1]),jitter(data[,9]),pch=".",xlab="Year")
+plot(jitter(data[,1]),jitter(data[,10]),pch=".",xlab="Year")
+plot(jitter(data[,1]),jitter(data[,11]),pch=".",xlab="Year")
+plot(jitter(data[,1]),jitter(data[,12]),pch=".",xlab="Year")
+plot(jitter(data[,1]),jitter(data[,13]),pch=".",xlab="Year")
+plot(jitter(data[,1]),jitter(data[,14]),pch=".",xlab="Year")
+plot(jitter(data[,1]),jitter(data[,15]),pch=".",xlab="Year")
+plot(jitter(data[,1]),jitter(data[,16]),pch=".",xlab="Year")
+plot(jitter(data[,1]),jitter(data[,17]),pch=".",xlab="Year")
+plot(jitter(data[,1]),jitter(data[,18]),pch=".",xlab="Year")
+plot(jitter(data[,1]),jitter(data[,19]),pch=".",xlab="Year")
+plot(jitter(data[,1]),jitter(data[,20]),pch=".",xlab="Year")
+plot(jitter(data[,1]),jitter(data[,21]),pch=".",xlab="Year")
+plot(jitter(data[,1]),jitter(data[,22]),pch=".",xlab="Year")
+
+for(i in 23:38){
+plot(jitter(data[,1]),jitter(data[,i]),pch=".",xlab="Year")
+}
+
+for(i in 39:54){
+plot(jitter(data[,1]),jitter(data[,i]),pch=".",xlab="Year")
+}
+
+for(i in 55:70){
+plot(jitter(data[,1]),jitter(data[,i]),pch=".",xlab="Year")
+}
+
+for(i in 71:86){
+plot(jitter(data[,1]),jitter(data[,i]),pch=".",xlab="Year")
+}
+
+for(i in 87:90){
+plot(jitter(data[,1]),jitter(data[,i]),pch=".",xlab="Year")
+}
+
+par(mfrow=c(3,4))
+for(i in 2:13){
+plot(jitter(data[,1]),data[,i],pch=".",xlab="Year")
+}
+
