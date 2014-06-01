@@ -28,6 +28,20 @@ Y.test <- as.vector(data[463716:515345, 1])
 
 # Tabling the years in the training set
 table(Y.train)
+year<-rep(0,90)
+for(i in 1922:2011){
+year[i-1921]<-length(which(data[,1]==i))
+}
+decade<-rep(0,10)
+for(i in 192:201){
+decade[i-191]<-length(which(trunc(data[,1]/10)==i))
+}
+barplot(decade,names=c("1920s","1930s","1940s",
+"1950s","1960s","1970s","1980s","1990s","2000s","2010-1"),
+ylab="number of songs in training set",main="Highly Uneven Distribution of Songs")
+
+plot(1922:2011,year,type="l",main="Number of Songs per Year in Training Set",ylab="Numer of songs",
+xlab="Year of Song's Release")
 
 # Performing PCA on the Correlation matrix of predictors for the training set
 cor.X <- cor(X.train)
@@ -68,7 +82,6 @@ predict_plot <- ggplot() +
   geom_histogram(aes(x = predictions$year), binwidth = 2) +
   labs(x = "Year", y = "Number of songs") +
   scale_x_continuous(breaks=pretty_breaks(n=10), limits = c(1920, 2015)) +
- # xlim(c(1920,2015)) +
   theme_bw(18)
 predict_plot
 ggsave("predict_plot.pdf")
