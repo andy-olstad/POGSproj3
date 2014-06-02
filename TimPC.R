@@ -187,3 +187,11 @@ mod <- multinom(groups.f ~ I(log(new.pred[,1])))
 summary(mod)
 
 cbind(Y.train, fitted(mod))[1:100,]
+
+
+##Andy getting some more evaluation of how good those predictions were:
+mean(ifelse(round(Res.test)==0,1,0))
+# 0.05349603
+# so, we got the year right about 5% of the time.
+mean(ifelse(abs(round(Res.test))<5,1,0))
+# within 5 years aboug 45% of the time.
