@@ -173,3 +173,17 @@ for(i in 2:13){
 plot(jitter(data[,1]),data[,i],pch=".",xlab="Year")
 }
 
+
+
+### Tim working on multinomial regression
+
+library(nnet)
+groups <- ifelse(Y.train < 1960, 2,
+                 ifelse(Y.train >= 1960 & Y.train < 1990, 1, 0))
+cbind(Y.train, groups)[1:100,]
+groups.f <- factor(groups, levels=c(0, 1, 2), labels=c("1990-2011", "1960-1989", "Pre-1960"))
+
+mod <- multinom(groups.f ~ I(log(new.pred[,1])))
+summary(mod)
+
+cbind(Y.train, fitted(mod))[1:100,]
